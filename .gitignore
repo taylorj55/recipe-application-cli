@@ -1,0 +1,22 @@
+# --- Build Output ---
+target/
+!.mvn/wrapper/maven-wrapper.jar
+
+# --- IntelliJ IDEA  ---
+.idea/
+*.iws
+*.iml
+*.ipr
+out/
+
+# --- Other Editors  ---
+.vscode/
+.classpath
+.project
+.settings/
+nbproject/
+build/
+
+# --- System Files ---
+.DS_Store
+Thumbs.db
