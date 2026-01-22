@@ -1,3 +1,6 @@
+import java.util.Scanner;
+
+
 public class Main {
 
     public static void main(String[] args) {
@@ -11,14 +14,14 @@ public class Main {
 
         while (running) {
             menu.displayMenu();
-            int action = menu.getUserAction();
+            int action = menu.getUserInt("Please select an option: ");
 
             switch (action) {
                 case 1:
                     viewAllRecipes(recipeService);
                     break;
                 case 2:
-                    System.out.println("Add a new recipe (not implemented)");
+                    addRecipe(menu, recipeService);
                     break;
                 case 3:
                     System.out.println("Search recipes (not implemented)");
@@ -43,6 +46,15 @@ public class Main {
                 System.out.println("Recipe: " + recipe.getName());
             }
         }
+    }
+
+    private static void addRecipe(ConsoleMenu menu, RecipeService recipeService) {
+        String name = menu.getUserString("Enter recipe Name: ");
+        String ingredients = menu.getUserString("Enter the ingredients in a comma separated list on 1 line: ");
+        String instructions = menu.getUserString("Enter the instruction on 1 line: ");
+        System.out.println("Recipe name: " + name);
+        System.out.println("Recipe ingredients: " + ingredients);
+        System.out.println("Recipe instructions: " + instructions);;
     }
 
 }

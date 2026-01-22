@@ -11,15 +11,17 @@ public class ConsoleMenu {
                 2. Add a new recipe
                 3. Search recipes
                 4. Exit
-                Please select an option:
                 """);
     }
 
-    public int getUserAction() {
-        while (!scanner.hasNextInt()) {
-            System.out.println("Invalid input. Please enter a number matching the action you wish to perform:");
-            scanner.next(); // Clear the invalid input
-        }
-        return scanner.nextInt();
+    public String getUserString(String prompt) {
+        System.out.println(prompt);
+        return scanner.nextLine();
+    }
+
+    public  int getUserInt(String prompt) {
+        System.out.println(prompt);
+        String input = scanner.nextLine();
+        return Integer.parseInt(input);
     }
 }
