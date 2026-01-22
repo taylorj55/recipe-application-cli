@@ -10,7 +10,7 @@ public class ConsoleMenu {
                 1. View all recipes
                 2. Add a new recipe
                 3. Search recipes
-                0. Exit
+                4. Exit
                 Please select an option:
                 """);
     }

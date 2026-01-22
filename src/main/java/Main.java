@@ -1,10 +1,13 @@
-import java.util.Scanner;
-
 public class Main {
 
     public static void main(String[] args) {
         ConsoleMenu menu = new ConsoleMenu();
+        RecipeRepository repository = new RecipeRepository();
+        RecipeService recipeService = new RecipeService(repository);
         boolean running = true;
+
+        Recipe sampleRecipe = new Recipe("Pizza", "Dough, Sauce, Cheese, Pepperoni", "Roll dough, add sauce and cheese on top. Finish with pepperoni slices.");
+        repository.addRecipe(sampleRecipe);
 
         while (running) {
             menu.displayMenu();
@@ -12,7 +15,7 @@ public class Main {
 
             switch (action) {
                 case 1:
-                    System.out.println("View all recipes (not implemented)");
+                    viewAllRecipes(recipeService);
                     break;
                 case 2:
                     System.out.println("Add a new recipe (not implemented)");
@@ -29,4 +32,17 @@ public class Main {
             }
         }
     }
+
+    private static void viewAllRecipes(RecipeService recipeService) {
+        var recipes = recipeService.getAllRecipes();
+
+        if (recipes.isEmpty()) {
+            System.out.println("No recipes found.");
+        } else {
+            for (var recipe : recipes) {
+                System.out.println("Recipe: " + recipe.getName());
+            }
+        }
+    }
+
 }
