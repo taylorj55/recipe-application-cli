@@ -43,7 +43,9 @@ public class Main {
             System.out.println("No recipes found.");
         } else {
             for (var recipe : recipes) {
-                System.out.println("Recipe: " + recipe.getName());
+                System.out.println("Name: " + recipe.getName());
+                System.out.println("Ingredients: " + recipe.getIngredients());
+                System.out.println("Instructions: " + recipe.getInstructions());
             }
         }
     }
@@ -52,9 +54,10 @@ public class Main {
         String name = menu.getUserString("Enter recipe Name: ");
         String ingredients = menu.getUserString("Enter the ingredients in a comma separated list on 1 line: ");
         String instructions = menu.getUserString("Enter the instruction on 1 line: ");
-        System.out.println("Recipe name: " + name);
-        System.out.println("Recipe ingredients: " + ingredients);
-        System.out.println("Recipe instructions: " + instructions);;
+
+        Recipe recipe = new Recipe(name, ingredients, instructions);
+        recipeService.addRecipe(recipe);
+        System.out.println("Recipe added");
     }
 
 }
