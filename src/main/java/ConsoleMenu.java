@@ -20,8 +20,14 @@ public class ConsoleMenu {
     }
 
     public  int getUserInt(String prompt) {
-        System.out.println(prompt);
-        String input = scanner.nextLine();
-        return Integer.parseInt(input);
+        while (true) {
+            System.out.println(prompt);
+            String input = scanner.nextLine();
+            try {
+                return Integer.parseInt(input);
+            } catch (NumberFormatException e) {
+                System.out.println("Input value '" + input  +"' is invalid, please enter a valid number that corresponds to the desired action.");
+            }
+        }
     }
 }
