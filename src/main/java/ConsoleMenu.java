@@ -6,7 +6,6 @@ public class ConsoleMenu {
 
     public void displayMenu() {
         System.out.print("""
-                Welcome to the Recipe App!
                 1. View all recipes
                 2. Add a new recipe
                 3. Search recipes
