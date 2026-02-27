@@ -9,7 +9,8 @@ public class ConsoleMenu {
                 1. View all recipes
                 2. Add a new recipe
                 3. Search recipes
-                4. Exit
+                4. Delete recipe
+                5. Exit
                 """);
     }
 

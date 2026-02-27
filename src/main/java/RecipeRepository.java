@@ -48,4 +48,20 @@ public class RecipeRepository {
         }
         return recipes;
     }
+
+    public boolean deleteRecipeById(int id) {
+        try (Connection connection = DatabaseManager.getConnection();
+             PreparedStatement statement = connection.prepareStatement(
+                     "DELETE FROM recipes WHERE id = ?"
+             )) {
+
+            statement.setInt(1, id);
+
+            int rowsAffected = statement.executeUpdate();
+
+            return rowsAffected > 0;
+        } catch (Exception e) {
+            throw new RuntimeException("Error deleting recipe with id: " + id, e);
+        }
+    }
 }

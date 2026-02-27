@@ -17,6 +17,9 @@ public class RecipeService {
         repository.addRecipe(recipe);
     }
 
+    public void deleteRecipeById(int id) {
+        repository.deleteRecipeById(id);
+    }
 
     public Recipe createRecipe(String name, int cookingTime, String ingredients, String instructions) {
         if (name.isBlank()) {

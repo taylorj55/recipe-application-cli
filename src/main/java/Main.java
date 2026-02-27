@@ -26,6 +26,11 @@ public class Main {
                     System.out.println("Search recipes (not implemented)");
                     break;
                 case 4:
+                    System.out.println("All Recipes:");
+                    recipeService.viewAllRecipes(recipeService);
+                    deleteRecipeById(menu, recipeService);
+                    break;
+                case 5:
                     System.out.println("Exiting the application");
                     running = false;
                     break;
@@ -33,5 +38,10 @@ public class Main {
                     System.out.println("Invalid action, please select a number from the list provided.");
             }
         }
+    }
+
+    private static void deleteRecipeById(ConsoleMenu menu, RecipeService recipeService) {
+        int id = menu.getUserInt("Enter the ID for the recipe you would like to delete:");
+        recipeService.deleteRecipeById(id);
     }
 }
