@@ -1,5 +1,6 @@
 public class Recipe {
 
+    private int id;
     private String name;
     private int cookingTime;
     private String ingredients;
@@ -10,6 +11,18 @@ public class Recipe {
         this.cookingTime = cookingTime;
         this.ingredients = ingredients;
         this.instructions = instructions;
+    }
+
+    public Recipe(int id, String name, int cookingTime, String ingredients, String instructions) {
+        this.id = id;
+        this.name = name;
+        this.cookingTime = cookingTime;
+        this.ingredients = ingredients;
+        this.instructions = instructions;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getName() {

@@ -28,24 +28,24 @@ public class RecipeRepository {
 
         try (Connection connection = DatabaseManager.getConnection();
              PreparedStatement statement = connection.prepareStatement(
-                     "SELECT name, cooking_time, ingredients, instructions FROM recipes"
+                     "SELECT id, name, cooking_time, ingredients, instructions FROM recipes"
              );
              ResultSet resultSet = statement.executeQuery()) {
 
             while (resultSet.next()) {
+                int id = resultSet.getInt("id");
                 Recipe recipe = new Recipe(
+                        id,
                         resultSet.getString("name"),
                         resultSet.getInt("cooking_time"),
                         resultSet.getString("ingredients"),
                         resultSet.getString("instructions")
                 );
-
                 recipes.add(recipe);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return recipes;
     }
 }

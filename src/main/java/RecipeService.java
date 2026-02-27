@@ -40,6 +40,7 @@ public class RecipeService {
             System.out.println("No recipes found.");
         } else {
             for (Recipe recipe : recipes) {
+                System.out.println(recipe.getId());
                 System.out.println("Name: " + recipe.getName());
                 System.out.println("Cooking time (minutes): " + recipe.getCookingTime());
                 System.out.println("Ingredients: " + recipe.getIngredients());
