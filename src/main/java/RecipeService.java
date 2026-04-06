@@ -21,7 +21,7 @@ public class RecipeService {
         repository.deleteRecipeById(id);
     }
 
-    public Recipe createRecipe(String name, int cookingTime, String ingredients, String instructions) {
+    public Recipe createRecipe(String name, int cookingTime, List<Ingredient> ingredients, String instructions) {
         if (name.isBlank()) {
             throw new IllegalArgumentException("Recipe name cannot be blank");
         }
@@ -46,7 +46,10 @@ public class RecipeService {
                 System.out.println(recipe.getId());
                 System.out.println("Name: " + recipe.getName());
                 System.out.println("Cooking time (minutes): " + recipe.getCookingTime());
-                System.out.println("Ingredients: " + recipe.getIngredients());
+                System.out.println("Ingredients: ");
+                for (Ingredient ingredient : recipe.getIngredients()) {
+                    System.out.println(ingredient.getName() + " - " + ingredient.getQuantity() + " " + ingredient.getMeasurement());
+                }
                 System.out.println("Instructions: " + recipe.getInstructions());
             }
         }

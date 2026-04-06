@@ -19,12 +19,21 @@ public class RecipeFlow {
             }
         }
 
-        String ingredients = menu.getUserString("Enter the ingredients in a comma separated list on 1 line: ");
+        List<Ingredient> ingredients = new ArrayList<>();
 
-        while (ingredients.isBlank()) {
-            printValidationMessage("ingredients");
-            ingredients = menu.getUserString("Enter the ingredients: ");
+        while (true) {
+            String ingredientName = menu.getUserString("Enter the ingredient name: ");
+            int quantity = menu.getUserInt("Enter quantity: ");
+            String measurement = menu.getUserString("Enter measurement: ");
+            String addMore = menu.getUserString("Add another ingredient? (y/n): ");
+
+            ingredients.add(new Ingredient(ingredientName, quantity, measurement));
+
+
+            if (!addMore.equalsIgnoreCase("y"))
+                break;
         }
+
         String instructions = menu.getUserString("Enter the instruction: ");
 
         recipeService.createRecipe(name, cookingTime, ingredients, instructions);

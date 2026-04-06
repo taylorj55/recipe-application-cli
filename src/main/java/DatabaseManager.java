@@ -19,8 +19,15 @@ CREATE TABLE IF NOT EXISTS recipes (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255),
     cooking_time INT,
-    ingredients VARCHAR(1000),
     instructions VARCHAR(20000)
+)""");
+            statement.execute("""
+CREATE TABLE IF NOT EXISTS ingredients ( 
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    recipe_id INT,
+    name VARCHAR(255),
+    quantity DOUBLE,
+    measurement VARCHAR(50)
 )""");
         }
     }
