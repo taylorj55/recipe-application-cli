@@ -26,7 +26,7 @@ public class ConsoleMenu {
             try {
                 return Integer.parseInt(input);
             } catch (NumberFormatException e) {
-                System.out.println("Input value '" + input  +"' is invalid, please enter a valid number that corresponds to the desired action.");
+                System.out.println("Input value '" + input  +"' is invalid, please enter a valid number.");
             }
         }
     }
