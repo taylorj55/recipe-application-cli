@@ -37,10 +37,14 @@ public class RecipeFlow {
         String splitValue = menu.getUserString("Please enter a value to separate ingredient components by: ");
 
         while (true) {
-            String[] Ingredient = menu.getUserString("Enter the ingredient").split(splitValue);
-            String ingredientName = Ingredient[0];
-            int quantity = Integer.parseInt(Ingredient[1]);
-            String measurement = Ingredient[2];
+            String[] parts = menu.getUserString("Enter the ingredient details:").split(splitValue);
+            if (parts.length != 3) {
+                System.out.println("Invalid ingredient format. Please enter: name" + splitValue + "quantity" + splitValue +"measurement");
+                continue;
+            }
+            String ingredientName = parts[0];
+            int quantity = Integer.parseInt(parts[1]);
+            String measurement = parts[2];
             String addMore = menu.getUserString("Add another ingredient? (y/n): ");
 
             ingredients.add(new Ingredient(ingredientName, quantity, measurement));
@@ -63,7 +67,6 @@ public class RecipeFlow {
                 System.out.println("Cooking time cannot be negative/blank");
             }
         }
-
         return cookingTime;
     }
 
@@ -79,5 +82,33 @@ public class RecipeFlow {
 
     private static void printValidationMessage(String recipeComponent) {
         System.out.println("Recipe " + recipeComponent + " cannot be blank.");
+    }
+
+    public void viewAllRecipes(RecipeService recipeService) {
+        System.out.println("All Recipes:");
+        List<Recipe> recipes = recipeService.getAllRecipes();
+        printAllRecipes(recipes);
+    }
+
+    private void printAllRecipes(List<Recipe> recipes) {
+        if (recipes.isEmpty()) {
+            System.out.println("No recipes found.");
+        } else {
+            for (Recipe recipe : recipes) {
+                System.out.println(recipe.getId());
+                System.out.println("Name: " + recipe.getName());
+                System.out.println("Cooking time (minutes): " + recipe.getCookingTime());
+                System.out.println("Ingredients: ");
+                for (Ingredient ingredient : recipe.getIngredients()) {
+                    System.out.println(ingredient);
+                }
+                System.out.println("Instructions: " + recipe.getInstructions());
+            }
+        }
+    }
+
+    public void deleteRecipeById(ConsoleMenu menu, RecipeService recipeService) {
+        int id = menu.getUserInt("Enter the ID for the recipe you would like to delete:");
+        recipeService.deleteRecipeById(id);
     }
 }

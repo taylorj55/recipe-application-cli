@@ -30,16 +30,8 @@ public class Recipe {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public int getCookingTime() {
         return cookingTime;
-    }
-
-    public void setCookingTime(int cookingTime) {
-        this.cookingTime = cookingTime;
     }
 
     public List<Ingredient> getIngredients() {
@@ -54,9 +46,6 @@ public class Recipe {
         return instructions;
     }
 
-    public void setInstructions(String instructions) {
-        this.instructions = instructions;
-    }
 
 
 

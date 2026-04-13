@@ -2,7 +2,7 @@ import java.util.List;
 
 public class RecipeService {
 
-    static int MAX_COOKING_TIME = 320;
+    public static final int MAX_COOKING_TIME = 320;
     private final RecipeRepository repository;
 
     public RecipeService(RecipeRepository repository) {
@@ -14,7 +14,7 @@ public class RecipeService {
     }
 
     private void addRecipe(Recipe recipe) {
-        repository.addRecipe(recipe);
+        repository.saveRecipe(recipe);
     }
 
     public void deleteRecipeById(int id) {
@@ -32,27 +32,6 @@ public class RecipeService {
 
         Recipe recipe = new Recipe(name, cookingTime, ingredients, instructions);
         addRecipe(recipe);
-        System.out.println("Recipe added");
         return recipe;
     }
-
-    public void viewAllRecipes(RecipeService recipeService) {
-        List<Recipe> recipes = recipeService.getAllRecipes();
-
-        if (recipes.isEmpty()) {
-            System.out.println("No recipes found.");
-        } else {
-            for (Recipe recipe : recipes) {
-                System.out.println(recipe.getId());
-                System.out.println("Name: " + recipe.getName());
-                System.out.println("Cooking time (minutes): " + recipe.getCookingTime());
-                System.out.println("Ingredients: ");
-                for (Ingredient ingredient : recipe.getIngredients()) {
-                    System.out.println(ingredient.getName() + " - " + ingredient.getQuantity() + " " + ingredient.getMeasurement());
-                }
-                System.out.println("Instructions: " + recipe.getInstructions());
-            }
-        }
-    }
-
 }

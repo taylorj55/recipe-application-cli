@@ -1,46 +1,60 @@
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class RecipeRepository {
 
-    public void addRecipe(Recipe recipe) {
-        try (Connection connection = DatabaseManager.getConnection();
-             PreparedStatement statement = connection.prepareStatement(
-                     "INSERT INTO recipes (name, cooking_time, instructions) VALUES (?, ?, ?)", PreparedStatement.RETURN_GENERATED_KEYS
-             )) {
+    public void saveRecipe(Recipe recipe) {
+        try (Connection connection = DatabaseManager.getConnection()) {
+            int recipeId = saveRecipeData(connection, recipe);
 
-            statement.setString(1, recipe.getName());
-            statement.setInt(2, recipe.getCookingTime());
-            statement.setString(3, recipe.getInstructions());
-
-            statement.executeUpdate();
-
-            ResultSet keys = statement.getGeneratedKeys();
-            int recipeId = 0;
-
-            if (keys.next()) {
-                recipeId = keys.getInt(1);
-            }
-
-            String ingredientSql = "INSERT INTO ingredients (recipe_id, name, quantity, measurement) VALUES (?, ?, ?, ?)";
-
-            PreparedStatement ingredientStmt = connection.prepareStatement(ingredientSql);
-
-            for (Ingredient ingredient : recipe.getIngredients()) {
-                ingredientStmt.setInt(1, recipeId);
-                ingredientStmt.setString(2, ingredient.getName());
-                ingredientStmt.setInt(3, ingredient.getQuantity());
-                ingredientStmt.setString(4, ingredient.getMeasurement());
-
-                ingredientStmt.executeUpdate();
-            }
+            saveIngredients(connection, recipeId, recipe.getIngredients());
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
+
+    private int saveRecipeData(Connection connection, Recipe recipe) throws SQLException {
+        String recipeSql = "INSERT INTO recipes (name, cooking_time, instructions) VALUES (?, ?, ?)";
+
+        PreparedStatement statement = connection.prepareStatement(
+                recipeSql,
+                PreparedStatement.RETURN_GENERATED_KEYS
+        );
+
+        statement.setString(1, recipe.getName());
+        statement.setInt(2, recipe.getCookingTime());
+        statement.setString(3, recipe.getInstructions());
+
+        statement.executeUpdate();
+
+        ResultSet keys = statement.getGeneratedKeys();
+
+        if (keys.next()) {
+            return keys.getInt(1);
+        }
+        throw new RuntimeException("Failed to save recipe, no ID returned");
+    }
+
+    private void saveIngredients(Connection connection, int recipeId, List<Ingredient> ingredients) throws SQLException {
+        String ingredientSql = "INSERT INTO ingredients (recipe_id, name, quantity, measurement) VALUES (?, ?, ?, ?)";
+
+        PreparedStatement ingredientStmt = connection.prepareStatement(ingredientSql);
+
+        for (Ingredient ingredient : ingredients) {
+            ingredientStmt.setInt(1, recipeId);
+            ingredientStmt.setString(2, ingredient.getName());
+            ingredientStmt.setInt(3, ingredient.getQuantity());
+            ingredientStmt.setString(4, ingredient.getMeasurement());
+
+            ingredientStmt.executeUpdate();
+        }
+    }
+
 
     public List<Recipe> getAllRecipes() {
         List<Recipe> recipes = new ArrayList<>();
@@ -60,7 +74,7 @@ public class RecipeRepository {
                         resultSet.getString("instructions")
                 );
 
-                List<Ingredient> ingredients = getIngredientByRecipeId(connection, id);
+                List<Ingredient> ingredients = getIngredientsByRecipeId(connection, id);
                 recipe.setIngredients(ingredients);
                 recipes.add(recipe);
             }
@@ -70,7 +84,7 @@ public class RecipeRepository {
         return recipes;
     }
 
-    private List<Ingredient> getIngredientByRecipeId(Connection connection, int recipeId) {
+    private List<Ingredient> getIngredientsByRecipeId(Connection connection, int recipeId) {
         List<Ingredient> ingredients = new ArrayList<>();
 
         try {
