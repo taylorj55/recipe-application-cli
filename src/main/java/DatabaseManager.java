@@ -6,10 +6,12 @@ public class DatabaseManager {
 
     private static final String DB_URL = "jdbc:h2:./data/recipes-db";
 
+    //TODO exception, what exception are you expecting?
     public static Connection getConnection() throws Exception {
         return DriverManager.getConnection(DB_URL);
     }
 
+    //TODO exception, what exception are you expecting?
     public static void initDatabase() throws Exception {
         //GOOD this is a good example of using try-with resources, even if there is a SQL issue, the connection will get closed properly.
         try (Connection connection = getConnection();

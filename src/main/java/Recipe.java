@@ -18,7 +18,7 @@ public class Recipe {
         this.instructions = instructions;
     }
 
-    //TODO the logic flow for this constructor ends in a loop that tries to print out .ingredients (RecipeFlow.printAllRecipes()), that will throw a NullPointerException. Or it should, you quite aggressively use catch/throws Exception so that is probably swallowing it. General rule of thumb is to always instantiate collections like Sets, Lists etc. as empty lists if not needed so that if they are mistakenly iterated over, it is safe.
+    //TODO the logic flow for this constructor ends in a loop that tries to print out .ingredients (RecipeFlow.printAllRecipes()), that will throw a NullPointerException. Or it should, you use catch/throws Exception so that is probably swallowing it. General rule of thumb is to always instantiate collections like Sets, Lists etc. as empty lists if not needed so that if they are mistakenly iterated over, it is safe.
     public Recipe(int id, String name, int cookingTime, String instructions) {
         this.id = id;
         this.name = name;
