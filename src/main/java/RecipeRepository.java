@@ -8,6 +8,8 @@ import java.util.List;
 public class RecipeRepository {
 
     public void saveRecipe(Recipe recipe) {
+        //TODO you have correctly noted that Exception is a bad catch statement, you have two options here, catch SQLExceptions or preferably write a custom Exception to better allow for logical responses
+        //TODO There is a potential for partial data completion here, the principle is called Atomicity, if the recipe saves successfully but the ingredients dont, currently you do not do anything so you end up with partially saved data. HINT: look at AutoCommit() vs manually telling he connection when to commit and rolling back on a failed transaction
         try (Connection connection = DatabaseManager.getConnection()) {
             int recipeId = saveRecipeData(connection, recipe);
 
@@ -21,6 +23,8 @@ public class RecipeRepository {
     private int saveRecipeData(Connection connection, Recipe recipe) throws SQLException {
         String recipeSql = "INSERT INTO recipes (name, cooking_time, instructions) VALUES (?, ?, ?)";
 
+        //TODO missing a try-wrapper
+        //Good using RETURN_GENERATED_KEYS is the correct approach, good job
         PreparedStatement statement = connection.prepareStatement(
                 recipeSql,
                 PreparedStatement.RETURN_GENERATED_KEYS
@@ -43,8 +47,10 @@ public class RecipeRepository {
     private void saveIngredients(Connection connection, int recipeId, List<Ingredient> ingredients) throws SQLException {
         String ingredientSql = "INSERT INTO ingredients (recipe_id, name, quantity, measurement) VALUES (?, ?, ?, ?)";
 
+        //TODO Missing a try-wrapper
         PreparedStatement ingredientStmt = connection.prepareStatement(ingredientSql);
 
+        //TODO you save each ingredient separately, on a small scale thats fine, but if you scaled up enough it would cause problems with database connections being busy. HINT: look at add and execute batch methods
         for (Ingredient ingredient : ingredients) {
             ingredientStmt.setInt(1, recipeId);
             ingredientStmt.setString(2, ingredient.getName());
@@ -112,6 +118,7 @@ public class RecipeRepository {
         return ingredients;
     }
 
+    //TODO you have ingredients that are linked to a recipe ID, and when you delete the recipe the ingredients are not deleted, but left as orphaned rows. HINT: Look at the CASCADE keyword and if you have set up a foreign key constraint
     public boolean deleteRecipeById(int id) {
         try (Connection connection = DatabaseManager.getConnection();
              PreparedStatement statement = connection.prepareStatement(

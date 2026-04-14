@@ -11,9 +11,11 @@ public class DatabaseManager {
     }
 
     public static void initDatabase() throws Exception {
+        //GOOD this is a good example of using try-with resources, even if there is a SQL issue, the connection will get closed properly.
         try (Connection connection = getConnection();
         Statement statement = connection.createStatement()) {
 
+            //GOOD in general this is a good SQL table setup, good use of IFNOTEXISTS, AUTOINCREMENT and appropriate restrictions on the varchars!
             statement.execute("""
 CREATE TABLE IF NOT EXISTS recipes ( 
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -21,6 +23,8 @@ CREATE TABLE IF NOT EXISTS recipes (
     cooking_time INT,
     instructions VARCHAR(20000)
 )""");
+
+//TODO in the Ingredient.class you define quantity as a INT, but here you are saving as a DOUBLE, double is probably the better choice but be consistent
             statement.execute("""
 CREATE TABLE IF NOT EXISTS ingredients ( 
     id INT AUTO_INCREMENT PRIMARY KEY,
