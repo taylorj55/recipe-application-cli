@@ -19,6 +19,7 @@ public class ConsoleMenu {
         return scanner.nextLine();
     }
 
+    //GOOD Nice handling of the input validation.
     public  int getUserInt(String prompt) {
         while (true) {
             System.out.println(prompt);

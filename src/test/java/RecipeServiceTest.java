@@ -18,6 +18,7 @@ public class RecipeServiceTest {
 
     @BeforeEach
     void initTest(){
+        //TODO just a warning that this test is creating a real RecipeRepository, connecting to the real database, you would never do that in an actual repo because it would slow down the test running and potentially create DB bloat. A stretch goal when you next have a few hours spare would be to look up a basic Mockito tutorial (I can find you one if you let me know ahead of time) and implement Mocking to isolate the tests from the actual database
          repository = new RecipeRepository();
          service = new RecipeService(repository);
     }
