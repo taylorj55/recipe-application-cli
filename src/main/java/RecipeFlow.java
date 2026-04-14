@@ -34,7 +34,10 @@ public class RecipeFlow {
 
     private List<Ingredient> getIngredientValuesWholeString(ConsoleMenu menu) {
         List<Ingredient> ingredients = new ArrayList<>();
-        String splitValue = menu.getUserString("Please enter a value to separate ingredient components by: ");
+        String splitValue = menu.getUserString("Please enter a value to separate ingredient components by (e.g. -): ");
+        while (splitValue.isBlank()) {
+            splitValue = menu.getUserString("Separator cannot be blank, please try again: ");
+        }
 
         while (true) {
             String[] parts = menu.getUserString("Enter the ingredient details:").split(splitValue);
@@ -42,12 +45,24 @@ public class RecipeFlow {
                 System.out.println("Invalid ingredient format. Please enter: name" + splitValue + "quantity" + splitValue +"measurement");
                 continue;
             }
-            String ingredientName = parts[0];
-            int quantity = Integer.parseInt(parts[1]);
-            String measurement = parts[2];
+
+            String ingredientName = parts[0].trim();
+            String quantity = parts[1].trim();
+            String unit = parts[2].trim();
+
+            if (ingredientName.isBlank() || quantity.isBlank() || unit.isBlank()) {
+                System.out.println("Error all fields must not be blank");
+                continue;
+            }
             String addMore = menu.getUserString("Add another ingredient? (y/n): ");
 
-            ingredients.add(new Ingredient(ingredientName, quantity, measurement));
+            try {
+                int value = Integer.parseInt(quantity);
+                ingredients.add(new Ingredient(ingredientName, value, unit));
+            } catch (NumberFormatException e) {
+                System.out.println("Error: '" + quantity + "' is not a valid number.");
+                continue;
+            }
 
             if (!addMore.equalsIgnoreCase("y"))
                 break;

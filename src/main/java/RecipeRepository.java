@@ -12,7 +12,7 @@ public class RecipeRepository {
             int recipeId = saveRecipeData(connection, recipe);
 
             saveIngredients(connection, recipeId, recipe.getIngredients());
-        } catch (Exception e) {
+        } catch (Exception e) { //specific exception catch
             e.printStackTrace();
         }
     }
@@ -37,7 +37,7 @@ public class RecipeRepository {
         if (keys.next()) {
             return keys.getInt(1);
         }
-        throw new RuntimeException("Failed to save recipe, no ID returned");
+        throw new RuntimeException("Failed to save recipe, no ID returned");  //specific exception catch
     }
 
     private void saveIngredients(Connection connection, int recipeId, List<Ingredient> ingredients) throws SQLException {
